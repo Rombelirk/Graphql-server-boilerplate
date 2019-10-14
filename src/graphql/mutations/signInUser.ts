@@ -1,6 +1,5 @@
 import { GraphQLString } from 'graphql';
 import { signInUser } from '../resolvers/auth';
-import UserType from '../types/user';
 
 const signInUserMutation = {
     type: GraphQLString,

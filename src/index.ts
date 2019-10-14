@@ -12,7 +12,6 @@ mongoose.connect('mongodb://localhost:27017/GP', { useNewUrlParser: true }, (err
 });
 
 const app = express();
-
 app.use(
     '/graphql',
     graphqlHTTP({

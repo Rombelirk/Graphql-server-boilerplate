@@ -1,29 +1,34 @@
 import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.get('Authorization');
     if (!authHeader) {
-        req.isAuth = false;
+        res.locals.isAuth = false;
         return next();
     }
+
     const token = authHeader.split(' ')[1];
     if (!token || token === '') {
-        req.isAuth = false;
+        res.locals.isAuth = false;
         return next();
     }
-    let decodedToken;
+    let decodedToken: any;
     try {
         decodedToken = jwt.verify(token, 'somesupersecretkey');
     } catch (err) {
-        req.isAuth = false;
+        res.locals.isAuth = false;
         return next();
     }
     if (!decodedToken) {
-        req.isAuth = false;
+        res.locals.isAuth = false;
         return next();
     }
-    req.isAuth = true;
-    req.userId = decodedToken.userId;
+    res.locals.isAuth = true;
+
+    if (typeof decodedToken === 'object' && decodedToken.hasOwnProperty('userId')) {
+        res.locals.userId = decodedToken.userId;
+    }
     next();
 };
 

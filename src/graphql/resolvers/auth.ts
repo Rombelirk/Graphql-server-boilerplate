@@ -1,8 +1,15 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../../models/user';
+import User, { IUser } from '../../models/user';
+import { GraphQLFieldResolver } from 'graphql';
 
-export const createUser = async (value, { login, password }) => {
+interface IUserInput {
+    login: string;
+    password: string;
+}
+
+export const createUser: GraphQLFieldResolver<void, IUserInput> = async (_, args): Promise<IUser> => {
+    const { login, password } = args;
     const existingUser = await User.findOne({ login });
 
     if (existingUser) {
@@ -16,7 +23,8 @@ export const createUser = async (value, { login, password }) => {
     return user;
 };
 
-export const signInUser = async (value, { login, password }) => {
+export const signInUser: GraphQLFieldResolver<void, IUserInput> = async (_, args): Promise<string> => {
+    const { login, password } = args;
     const user = await User.findOne({ login });
     if (!user) {
         throw new Error('User does not exist!');
