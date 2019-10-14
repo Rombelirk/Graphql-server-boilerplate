@@ -1,80 +1,70 @@
-const User = require("../models/user");
-const graphql = require('graphql');
-const { createUser, signInUser } = require('./resolvers/auth')
+import graphql from 'graphql';
+import User from '../models/user';
+import { createUser, signInUser } from './resolvers/auth';
 
-const {
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLSchema,
-    GraphQLList
-} = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList } = graphql;
 
 const UserType = new GraphQLObjectType({
-    name: "User",
+    name: 'User',
     fields: () => ({
-        login: { type: GraphQLString }
-    })
+        login: { type: GraphQLString },
+    }),
 });
 
 const AuthDataType = new GraphQLObjectType({
-    name: "AuthData",
+    name: 'AuthData',
     fields: () => ({
-        token: { type: GraphQLString }
-    })
+        token: { type: GraphQLString },
+    }),
 });
 
-
 const RootQuery = new GraphQLObjectType({
-    name: "Query",
+    name: 'Query',
     fields: {
         getAllUsers: {
             type: new GraphQLList(UserType),
             resolve: () => {
                 return User.find({});
-            }
-        }
-    }
+            },
+        },
+    },
 });
 
-
-
 const RootMutation = new GraphQLObjectType({
-    name: "Mutation",
+    name: 'Mutation',
     fields: {
         createUser: {
             type: UserType,
             args: {
                 login: {
                     name: 'login',
-                    type: GraphQLString
+                    type: GraphQLString,
                 },
                 password: {
                     name: 'password',
-                    type: GraphQLString
-                }
+                    type: GraphQLString,
+                },
             },
-            resolve: createUser
+            resolve: createUser,
         },
         signInUser: {
             type: GraphQLString,
             args: {
                 login: {
                     name: 'login',
-                    type: GraphQLString
+                    type: GraphQLString,
                 },
                 password: {
                     name: 'password',
-                    type: GraphQLString
-                }
+                    type: GraphQLString,
+                },
             },
-            resolve: signInUser
-
-        }
+            resolve: signInUser,
+        },
     },
+});
 
-})
-
-module.exports = new GraphQLSchema({
+export default new GraphQLSchema({
     query: RootQuery,
-    mutation: RootMutation
+    mutation: RootMutation,
 });

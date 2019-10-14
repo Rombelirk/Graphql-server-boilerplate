@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "precommit": "npx prettier --write '**/*.{js,jsx,ts,tsx}' && npm run lint -- && npm run test -- --findRelatedTests && git add .",
+    "test": "echo \"Error: no test specified\"",
+    "lint": "tslint -c tslint.json '**/*.ts' --fix --exclude 'node_modules dist **/*.js'"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.19.3"
+    "@types/graphql": "^14.5.0",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.3",
+    "prettier": "^1.18.2",
+    "tslint-config-prettier": "^1.18.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -18,5 +25,11 @@
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.4"
+  },
+ 
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
   }
 }

@@ -1,0 +1,21 @@
+{
+    "extends": ["tslint:latest", "tslint-config-prettier"],
+    "linterOptions": {
+        "exclude": ["node_modules/**", "*.js"]
+    },
+    "rules": {
+        "object-literal-sort-keys": false,
+        "no-console": false,
+        "interface-name": [true, "never-prefix"],
+        "space-before-function-paren": false,
+        "no-shadowed-variable": false,
+        "no-implicit-dependencies": [true, "dev"],
+        "no-bitwise": false,
+        "variable-name": false,
+        "no-var-requires": false,
+        "deprecation": {
+            "severity": "warn"
+        },
+        "no-submodule-imports": false
+    }
+}
