@@ -6,7 +6,7 @@
     "rules": {
         "object-literal-sort-keys": false,
         "no-console": false,
-        "interface-name": [true, "never-prefix"],
+        "interface-name": [true, "always-prefix"],
         "space-before-function-paren": false,
         "no-shadowed-variable": false,
         "no-implicit-dependencies": [true, "dev"],

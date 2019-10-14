@@ -1,15 +1,8 @@
-import graphql from 'graphql';
+import { GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
 import User from '../models/user';
-import { createUser, signInUser } from './resolvers/auth';
-
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList } = graphql;
-
-const UserType = new GraphQLObjectType({
-    name: 'User',
-    fields: () => ({
-        login: { type: GraphQLString },
-    }),
-});
+import createUser from './mutations/createUser';
+import signInUser from './mutations/signInUser';
+import UserType from './types/user';
 
 const AuthDataType = new GraphQLObjectType({
     name: 'AuthData',
@@ -19,7 +12,7 @@ const AuthDataType = new GraphQLObjectType({
 });
 
 const RootQuery = new GraphQLObjectType({
-    name: 'Query',
+    name: 'RootQuery',
     fields: {
         getAllUsers: {
             type: new GraphQLList(UserType),
@@ -31,36 +24,10 @@ const RootQuery = new GraphQLObjectType({
 });
 
 const RootMutation = new GraphQLObjectType({
-    name: 'Mutation',
+    name: 'RootMutation',
     fields: {
-        createUser: {
-            type: UserType,
-            args: {
-                login: {
-                    name: 'login',
-                    type: GraphQLString,
-                },
-                password: {
-                    name: 'password',
-                    type: GraphQLString,
-                },
-            },
-            resolve: createUser,
-        },
-        signInUser: {
-            type: GraphQLString,
-            args: {
-                login: {
-                    name: 'login',
-                    type: GraphQLString,
-                },
-                password: {
-                    name: 'password',
-                    type: GraphQLString,
-                },
-            },
-            resolve: signInUser,
-        },
+        createUser,
+        signInUser,
     },
 });
 
