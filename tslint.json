@@ -16,6 +16,7 @@
         "deprecation": {
             "severity": "warn"
         },
+        "no-unused-variable": true,
         "no-submodule-imports": false
     }
 }
